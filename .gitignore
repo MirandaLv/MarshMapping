@@ -3,6 +3,23 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Data type
+*.shp
+*.prj
+*.cpg
+*.sbx
+*.dbf
+*.sbn
+*.shx
+*.xml
+*.json
+*.geojson
+*.tif
+
+# weights
+*.h5
+
+
 # C extensions
 *.so
 
