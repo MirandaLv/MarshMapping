@@ -16,6 +16,11 @@ __pycache__/
 *.geojson
 *.tif
 *.zip
+*.tif.ovr
+*.ovr
+*.lock
+*.tfw
+*.clr
 
 # weights
 *.h5
