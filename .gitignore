@@ -24,6 +24,7 @@ __pycache__/
 
 # weights
 *.h5
+*.ckpt
 
 
 # C extensions
