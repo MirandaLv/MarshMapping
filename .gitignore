@@ -21,6 +21,8 @@ __pycache__/
 *.lock
 *.tfw
 *.clr
+*.gz
+*.sid
 
 # weights
 *.h5
