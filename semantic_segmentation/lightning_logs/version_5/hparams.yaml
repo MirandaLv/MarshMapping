@@ -1,0 +1,5 @@
+arch: unet
+encoder_name: resnet101
+in_channels: 4
+out_classes: 1
+encoder_weights: imagenet

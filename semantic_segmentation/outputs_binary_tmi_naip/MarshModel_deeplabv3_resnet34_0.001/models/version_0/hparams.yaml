@@ -1,0 +1,4 @@
+arch: deeplabv3
+encoder_name: resnet34
+in_channels: 4
+out_classes: 1
