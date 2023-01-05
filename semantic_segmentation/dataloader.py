@@ -27,13 +27,16 @@ class GenMARSH(Dataset):
     def __init__(self, csv_file, root_dir, normalization=None, transform=None, ndvi=False, ndwi=False, datasource=None):
         
         
-        self.df = pd.read_csv(csv_file)
+        df = pd.read_csv(csv_file)
+        self.df = df[df['filter_zero']==1].reset_index(drop=True)
+#         self.df = pd.read_csv(csv_file)
         self.root_dir = root_dir
         self.normalization = normalization
         self.ndvi = ndvi
         self.ndwi = ndwi
         self.transform = transform
         self.datasource = datasource
+#         self.impute_nan = np.tile(bands_mean, (temp.shape[1],temp.shape[2],1))
     
     def __len__(self):
         return len(self.df)
@@ -80,7 +83,7 @@ class GenMARSH(Dataset):
             stack = self.transform(stack)
             
             image = stack[:-1,:,:]
-            label = stack[-1,:,:].long()[np.newaxis, :, :] # Recast target values back to int64 or torch long dtype
+            label = stack[-1,:,:].long()#[np.newaxis, :, :] # Recast target values back to int64 or torch long dtype
         
 #         image = image[[0,1,2,3], :, :] # Use only four bands from Sentinel for testing.
         sample = {'image': image, 'label': label}

@@ -57,7 +57,7 @@ class GenMARSH(Dataset):
         
 #         nan_mask = np.isnan(image)
 #         image[nan_mask] = self.impute_nan[nan_mask]
-        
+
         
         if self.label_agg:
             target[target==9]=8 # z7 has an unknown class 9, merge it with class 8-upland

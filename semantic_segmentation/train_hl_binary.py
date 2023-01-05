@@ -5,7 +5,7 @@ from typing import Any, Dict, Type, cast
 import pytorch_lightning as pl
 from omegaconf import OmegaConf
 
-from MarshModel import MarshModel
+# from MarshModel import MarshModel
 from sharp_trainer import SemanticSegmentationTask
 import smp_metrics
 
