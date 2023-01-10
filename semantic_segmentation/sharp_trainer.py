@@ -9,7 +9,7 @@ import torch.nn as nn
 from torch import Tensor
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader
-from torchmetrics import Accuracy, JaccardIndex, MetricCollection
+from torchmetrics import Accuracy, JaccardIndex, MetricCollection, Precision, Recall
 
 
 
@@ -61,7 +61,8 @@ class SemanticSegmentationTask(pl.LightningModule):
 
         if self.hyperparams["loss"] == "ce":
             ignore_value = -1000 if self.ignore_index is None else self.ignore_index
-            self.loss = nn.CrossEntropyLoss(ignore_index=self.ignore_index)
+            self.c_weights = None if self.c_weights is None else self.c_weights
+            self.loss = nn.CrossEntropyLoss(ignore_index=self.ignore_index, weight=self.c_weights)
         elif self.hyperparams["loss"] == "jaccard":
             self.loss = smp.losses.JaccardLoss(
                 mode="multiclass", classes=self.hyperparams["num_classes"]
@@ -103,6 +104,8 @@ class SemanticSegmentationTask(pl.LightningModule):
                 UserWarning,
             )
         self.ignore_index = kwargs["ignore_index"]
+        self.c_weights = kwargs["c_weights"]
+        self.monitor_state = kwargs["monitor_state"]
         self.config_task()
 
         self.train_metrics = MetricCollection(
@@ -228,7 +231,7 @@ class SemanticSegmentationTask(pl.LightningModule):
                     optimizer,
                     patience=self.hyperparams["learning_rate_schedule_patience"],
                 ),
-                "monitor": "val_loss", #val_JaccardIndex
+                "monitor": self.monitor_state, #val_JaccardIndex
             },
         }
 

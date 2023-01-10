@@ -1,0 +1,27 @@
+c_weights: !!python/object/apply:torch._utils._rebuild_tensor_v2
+- !!python/object/apply:torch.storage._load_from_bytes
+  - !!binary |
+    gAKKCmz8nEb5IGqoUBkugAJN6QMugAJ9cQAoWBAAAABwcm90b2NvbF92ZXJzaW9ucQFN6QNYDQAA
+    AGxpdHRsZV9lbmRpYW5xAohYCgAAAHR5cGVfc2l6ZXNxA31xBChYBQAAAHNob3J0cQVLAlgDAAAA
+    aW50cQZLBFgEAAAAbG9uZ3EHSwR1dS6AAihYBwAAAHN0b3JhZ2VxAGN0b3JjaApGbG9hdFN0b3Jh
+    Z2UKcQFYDgAAADk0NDM3ODE1MzQ0MDAwcQJYAwAAAGNwdXEDSwJOdHEEUS6AAl1xAFgOAAAAOTQ0
+    Mzc4MTUzNDQwMDBxAWEuAgAAAAAAAADkcs0/YUKzQA==
+- 0
+- !!python/tuple
+  - 2
+- !!python/tuple
+  - 1
+- false
+- !!python/object/apply:collections.OrderedDict
+  - []
+encoder_name: resnet34
+encoder_weights: imagenet
+ignore_index: -1
+imagenet_pretraining: true
+in_channels: 4
+learning_rate: 0.0001
+learning_rate_schedule_patience: 6
+loss: ce
+monitor_state: val_JaccardIndex
+num_classes: 2
+segmentation_model: deeplabv3

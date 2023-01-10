@@ -10,11 +10,11 @@ experiment:
   dataloader:
     labelpath: "../../MarshMapping_local/data/NAIP_data_processing/labels_tmi_modified_valid.csv" # "../data/NAIP_data_processing/labels_tmi.csv" / "../data/sentinel_data_processing/labels_tmi.csv"
     data_root_dir: "../../MarshMapping_local/data/NAIP_data_processing/image_patch" # "../data/NAIP_data_processing/image_patch" &  "../data/sentinel_data_processing/image_multiband_128"
-    batch_size: 5
+    batch_size: 32
     num_workers: 0
     normalization: True
     ndvi: True
     ndwi: False
     datasource: "naip"
-    out_dir: "./outputs_binary_tmi_naip"
+    out_dir: "../outputs/outputs_binary_tmi_naip"
 

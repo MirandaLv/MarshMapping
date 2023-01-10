@@ -27,7 +27,8 @@ class GenMARSH(Dataset):
     def __init__(self, csv_file, normalization=None, transform=None, ndvi=False, ndwi=False, datasource=None, label_agg=True, high_low=True, binary_class=False):
         
         
-        self.df = pd.read_csv(csv_file)
+        df = pd.read_csv(csv_file)
+        self.df = df[df['valid']==1]
         self.normalization = normalization
         self.ndvi = ndvi
         self.ndwi = ndwi
@@ -94,14 +95,14 @@ class GenMARSH(Dataset):
         
         # Need to double check here!!!!!
         if self.transform is not None:
-            target = target[np.newaxis,:,:]
+#             target = target[np.newaxis,:,:]
             image = np.moveaxis(image, [0, 1, 2], [2, 0, 1]).astype('float32') # CxHxW to HxWxC
             target = np.moveaxis(target, [0, 1, 2], [2, 0, 1])    # CxWxH to WxHxC
             stack = np.concatenate([image, target], axis=-1).astype('float32') # In order to rotate-transform both mask and image
             stack = self.transform(stack)
             
             image = stack[:-1,:,:]
-            target = stack[-1,:,:].long()[0] # Recast target values back to int64 or torch long dtype
+            target = stack[-1,:,:].long()# Recast target values back to int64 or torch long dtype
         
 #         image = image[[0,1,2,3], :, :] # Use only four bands from Sentinel for testing.
         sample = {'image': image, 'label': target}
@@ -134,11 +135,10 @@ class Resize:
         
         return F.resize(img, self._size)
 
-# class NAIPnormalization:
-#     def __init__(self):
-    
-#     def __call__(self, x):
-#         normalizaed = x / 255.
-#         return normalized
+###############################################################
+# Weighting Function for Semantic Segmentation                #
+###############################################################
+def gen_weights(class_distribution, c = 1.02):
+    return 1/torch.log(c + class_distribution)
     
 

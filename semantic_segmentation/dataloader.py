@@ -47,8 +47,7 @@ class GenMARSH(Dataset):
         if torch.is_tensor(idx):
             idx = idx.tolist()
 
-        img_name = os.path.join(self.root_dir,
-                                self.df.iloc[idx, 0])
+        img_name = self.df.iloc[idx, 0]
         
         # the dimension is CxHxW
         image = rasterio.open(img_name).read().astype('float32') 
@@ -83,7 +82,7 @@ class GenMARSH(Dataset):
             stack = self.transform(stack)
             
             image = stack[:-1,:,:]
-            label = stack[-1,:,:].long()#[np.newaxis, :, :] # Recast target values back to int64 or torch long dtype
+            label = stack[-1,:,:].long()[np.newaxis, :, :] # Recast target values back to int64 or torch long dtype
         
 #         image = image[[0,1,2,3], :, :] # Use only four bands from Sentinel for testing.
         sample = {'image': image, 'label': label}
