@@ -140,5 +140,60 @@ class Resize:
 ###############################################################
 def gen_weights(class_distribution, c = 1.02):
     return 1/torch.log(c + class_distribution)
+<<<<<<< HEAD
+
+
+
+class GenMARSH_prediction(Dataset):
     
+    def __init__(self, csv_file, normalization=True, transform=None, ndvi=True):
+        
+        
+        df = pd.read_csv(csv_file)
+        self.df = df[df['valid']==1]
+        self.normalization = normalization
+        self.ndvi = ndvi
+        self.transform = transform
+    
+    def __len__(self):
+        return len(self.df)
+=======
+>>>>>>> a00eda755a52df37f51b0ab56be0654bdd1c7e33
+    
+    
+    def __getitem__(self, idx):
+        
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
+
+        img_path = self.df.iloc[idx, 0]
+        img_name = self.df.iloc[idx, 1]
+        
+        # get meta info for the image to be used to generate output files
+        rst = rasterio.open(img_path)
+        meta = rst.meta.copy()
+        meta.update(compress='lzw')
+        meta['count'] = 1
+        
+        image = rst.read().astype('float32')
+
+        if self.normalization:
+            image = image/255. # image = image/10000*3.5 (sentinel)
+        
+        # the image bands in the input data are: B2, B3, B4, B8, B1, ...., B12 (Sentinel: RGBNIR + ....)
+        if self.ndvi:
+            ndvi = (image[3,:,:] - image[2,:,:]) / (image[3,:,:] + image[2,:,:]) # (NIR - R) / (NIR + R)    
+            ndvi = ndvi[np.newaxis, :, :]
+            image = np.concatenate([image, ndvi], axis=0).astype('float32')
+        
+        # Need to double check here!!!!!
+        if self.transform is not None:
+            image = np.moveaxis(image, [0, 1, 2], [2, 0, 1]).astype('float32') # CxHxW to HxWxC
+            stack = self.transform(image)
+
+        sample = {'image': stack, 'image_name': img_name, 'image_path': img_path}
+
+        return sample
+
+
 
