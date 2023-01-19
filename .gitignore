@@ -24,6 +24,9 @@ __pycache__/
 *.gz
 *.sid
 
+# input csv file
+*.csv
+
 # weights
 *.h5
 *.ckpt
