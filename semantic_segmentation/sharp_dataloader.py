@@ -140,7 +140,6 @@ class Resize:
 ###############################################################
 def gen_weights(class_distribution, c = 1.02):
     return 1/torch.log(c + class_distribution)
-<<<<<<< HEAD
 
 
 
@@ -157,8 +156,6 @@ class GenMARSH_prediction(Dataset):
     
     def __len__(self):
         return len(self.df)
-=======
->>>>>>> a00eda755a52df37f51b0ab56be0654bdd1c7e33
     
     
     def __getitem__(self, idx):

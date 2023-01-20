@@ -13,13 +13,8 @@ experiment:
     num_filters: 1 # this is the input for FCN
     ignore_index: 0
   dataloader:
-<<<<<<< HEAD
     labelpath: "../data/NAIP/NAIP_data_highlow_50000_valid.csv" #NAIP_data_highlow_512.csv
     batch_size: 16
-=======
-    labelpath: "../../MarshMapping_local/data/NAIP/NAIP_data_highlow_50000.csv" #NAIP_data_highlow_512.csv
-    batch_size: 32
->>>>>>> a00eda755a52df37f51b0ab56be0654bdd1c7e33
     num_workers: 0
     normalization: True
     ndvi: True
